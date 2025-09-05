@@ -1,26 +1,30 @@
 package com.clevo.wastemanagement.service;
 import com.clevo.wastemanagement.dto.BookingRequest;
 import com.clevo.wastemanagement.dto.RewardRedeemRequest;
-import com.clevo.wastemanagement.model.IBooking;
+import com.clevo.wastemanagement.model.Booking;
 import com.clevo.wastemanagement.model.PickupSlot;
 import com.clevo.wastemanagement.model.Reward;
-import com.clevo.wastemanagement.repository.IBookingRepository;
-import com.clevo.wastemanagement.repository.IPickupSlotRepository;
+import com.clevo.wastemanagement.model.WasteCategory;
+import com.clevo.wastemanagement.repository.BookingRepository;
+import com.clevo.wastemanagement.repository.PickupSlotRepository;
 import com.clevo.wastemanagement.repository.RewardRepository;
+import com.clevo.wastemanagement.repository.WasteCategoryRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class CitizenService {
-    private final IPickupSlotRepository slotRepo;
-    private final IBookingRepository bookingRepo;
+    private final PickupSlotRepository slotRepo;
+    private final BookingRepository bookingRepo;
     private final RewardRepository rewardRepo;
+    private final WasteCategoryRepository wasteCategoryRepo;
 
-    public CitizenService(IPickupSlotRepository slotRepo, IBookingRepository bookingRepo, RewardRepository rewardRepo) {
+    public CitizenService(PickupSlotRepository slotRepo, BookingRepository bookingRepo, RewardRepository rewardRepo, WasteCategoryRepository wasteCategoryRepo) {
         this.slotRepo = slotRepo;
         this.bookingRepo = bookingRepo;
         this.rewardRepo = rewardRepo;
+        this.wasteCategoryRepo = wasteCategoryRepo;
     }
 
     // View available slots
@@ -29,19 +33,22 @@ public class CitizenService {
     }
 
     // Book a slot
-    public IBooking bookSlot(BookingRequest request) {
+    public Booking bookSlot(BookingRequest request) {
         PickupSlot slot = slotRepo.findById(request.getSlotId())
                 .orElseThrow(() -> new RuntimeException("Slot not found"));
-        IBooking booking = new IBooking();
-        booking.setSlot(slot);
-        booking.setWasteCategory(request.getWasteCategory());
+        WasteCategory wasteCategory = wasteCategoryRepo.findById(request.getWasteCategoryId())
+                .orElseThrow(() -> new RuntimeException("Waste category not found"));
+        Booking booking = new Booking();
+        booking.setPickupSlot(slot);
+        booking.setWasteCategory(wasteCategory);
         booking.setEstimatedQuantity(request.getEstimatedQuantity());
-        booking.setStatus("PENDING");
+        booking.setStatus(Booking.Status.PENDING);
+        // ...set citizen if needed...
         return bookingRepo.save(booking);
     }
 
     // View all bookings
-    public List<IBooking> getBookings() {
+    public List<Booking> getBookings() {
         return bookingRepo.findAll();
     }
 
