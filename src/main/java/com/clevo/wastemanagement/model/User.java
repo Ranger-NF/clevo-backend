@@ -24,7 +24,8 @@ public class User {
     @Column(unique = true, nullable = false)
     private String email;
 
-    private String password;
+    @Column(nullable = false, name = "password")
+    private String passwordHash;
 
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -37,10 +38,30 @@ public class User {
     @Column(nullable = false)
     private boolean active = true;
 
+    @Column(nullable = false, updatable = false)
+    private java.time.Instant createdAt;
+
+    @Column(nullable = false)
+    private java.time.Instant updatedAt;
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = updatedAt = java.time.Instant.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = java.time.Instant.now();
+    }
+
     public enum Role {
         CITIZEN, RECYCLER, AUTHORITY
     }
 
     public void setActive(boolean active) { this.active = active; }
     public boolean isActive() { return active; }
+
+    public String getPassword() {
+        return passwordHash;
+    }
 }
