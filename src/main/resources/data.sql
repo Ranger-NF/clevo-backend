@@ -1,10 +1,10 @@
 -- Insert a recycler user
-INSERT INTO users (id, username, email, password, role)
-VALUES ('ac36ead1-c59c-45c5-93bf-616c41ade038', 'recycler1', 'recycler@example.com', 'password123', 'RECYCLER');
+INSERT INTO users (id, username, email, password, role, active)
+VALUES ('ac36ead1-c59c-45c5-93bf-616c41ade038', 'recycler1', 'recycler@example.com', 'password123', 'RECYCLER', TRUE);
 
 -- Insert a citizen user
-INSERT INTO users (id, username, email, password, role)
-VALUES ('e062eae1-05c6-4a2e-b742-671bf4348dcc', 'citizen1', 'john@example.com', 'password123', 'CITIZEN');
+INSERT INTO users (id, username, email, password, role, active)
+VALUES ('e062eae1-05c6-4a2e-b742-671bf4348dcc', 'citizen1', 'john@example.com', 'password123', 'CITIZEN', TRUE);
 
 -- Insert a ward
 INSERT INTO ward (id, name, description)

@@ -34,7 +34,13 @@ public class User {
     private String address;
     private String phoneNumber;
 
+    @Column(nullable = false)
+    private boolean active = true;
+
     public enum Role {
         CITIZEN, RECYCLER, AUTHORITY
     }
+
+    public void setActive(boolean active) { this.active = active; }
+    public boolean isActive() { return active; }
 }
