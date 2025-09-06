@@ -20,7 +20,7 @@ The Clevo API is built with a **Java Spring Boot** backend, providing a robust f
 
 ### Prerequisites
 
-* **Java 17 or higher**
+* **Java 17**
 * **Maven**
 * **MySQL**
 
