@@ -5,9 +5,8 @@ import lombok.*;
 
 import java.util.UUID;
 
+@Data
 @Entity
-@Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -64,4 +63,8 @@ public class User {
     public String getPassword() {
         return passwordHash;
     }
+
+    public String getUsername() { return username; }
+    public User.Role getRole() { return role; }
+    public String getPasswordHash() { return passwordHash; }
 }

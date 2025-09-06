@@ -13,4 +13,13 @@ public class RegisterRequest {
     private String lastName;
     private String address;
     private String phoneNumber;
+
+    public String getUsername() { return username; }
+    public String getEmail() { return email; }
+    public String getPassword() { return password; }
+    public com.clevo.wastemanagement.model.User.Role getRole() { return role; }
+    public String getFirstName() { return firstName; }
+    public String getLastName() { return lastName; }
+    public String getAddress() { return address; }
+    public String getPhoneNumber() { return phoneNumber; }
 }

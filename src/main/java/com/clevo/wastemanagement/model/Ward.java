@@ -5,9 +5,8 @@ import lombok.*;
 
 import java.util.UUID;
 
+@Data
 @Entity
-@Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -25,4 +24,7 @@ public class Ward {
     @ManyToOne
     @JoinColumn(name = "authority_id")
     private User authority;
+
+    public void setName(String name) { this.name = name; }
+    public void setDescription(String description) { this.description = description; }
 }

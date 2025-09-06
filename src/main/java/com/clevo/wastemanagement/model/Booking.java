@@ -1,17 +1,17 @@
 package com.clevo.wastemanagement.model;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+@Data
 @Entity
-@Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class Booking {
 
     @Id
@@ -44,4 +44,10 @@ public class Booking {
     public enum Status {
         PENDING, CONFIRMED, COLLECTED, CANCELLED
     }
+
+    public void setStatus(Status status) { this.status = status; }
+    public void setActualQuantity(Double actualQuantity) { this.actualQuantity = actualQuantity; }
+    public void setPickupSlot(PickupSlot pickupSlot) { this.pickupSlot = pickupSlot; }
+    public void setWasteCategory(WasteCategory wasteCategory) { this.wasteCategory = wasteCategory; }
+    public void setEstimatedQuantity(Double estimatedQuantity) { this.estimatedQuantity = estimatedQuantity; }
 }
