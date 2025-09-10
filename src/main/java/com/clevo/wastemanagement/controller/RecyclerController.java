@@ -1,6 +1,4 @@
 package com.clevo.wastemanagement.controller;
-import com.clevo.wastemanagement.dto.UpdateBookingStatusRequest;
-import com.clevo.wastemanagement.service.BookingService;
 import com.clevo.wastemanagement.model.Booking;
 import com.clevo.wastemanagement.model.PickupSlot;
 import com.clevo.wastemanagement.service.RecyclerService;
@@ -16,10 +14,8 @@ import java.util.UUID;
 public class RecyclerController {
 
     private final RecyclerService recyclerService;
-    private final BookingService bookingService;
-    public RecyclerController(RecyclerService recyclerService, BookingService bookingService) {
+    public RecyclerController(RecyclerService recyclerService) {
         this.recyclerService = recyclerService;
-        this.bookingService = bookingService;
     }
 
 

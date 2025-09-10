@@ -35,7 +35,7 @@ public class AuthorityService {
     public User changeUserStatus(UUID userId, boolean active) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
-        setUserActive(user, active);
+        user.setActive(active);
         return userRepository.save(user);
     }
 
@@ -92,24 +92,5 @@ public class AuthorityService {
             "totalEarned", 5000,
             "totalRedeemed", 3200
         );
-    }
-
-    private void setUserActive(User user, boolean active) {
-        try {
-            java.lang.reflect.Method m = user.getClass().getMethod("setActive", boolean.class);
-            m.invoke(user, active);
-            return;
-        } catch (NoSuchMethodException ignored) {
-            // fall through
-        } catch (ReflectiveOperationException e) {
-            throw new IllegalStateException("Failed to invoke setActive on User", e);
-        }
-        try {
-            java.lang.reflect.Field f = user.getClass().getDeclaredField("active");
-            f.setAccessible(true);
-            f.set(user, active);
-        } catch (ReflectiveOperationException e) {
-            throw new IllegalStateException("User does not have 'active' property to set", e);
-        }
     }
 }
