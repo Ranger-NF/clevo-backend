@@ -39,7 +39,7 @@ public class AuthController {
         User user = User.builder()
                 .username(req.getUsername())
                 .email(req.getEmail())
-                .passwordHash(passwordEncoder.encode(req.getPassword()))
+                .password(passwordEncoder.encode(req.getPassword()))
                 .role(req.getRole())
                 .firstName(req.getFirstName())
                 .lastName(req.getLastName())

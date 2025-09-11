@@ -23,6 +23,7 @@ public class RecyclerController {
 
     public RecyclerController(RecyclerService recyclerService, BookingService bookingService) {
         this.recyclerService = recyclerService;
+        this.bookingService = bookingService;
     }
 
     // GET recycler slots

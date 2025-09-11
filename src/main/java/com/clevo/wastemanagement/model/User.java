@@ -62,10 +62,10 @@ public class User {
     public boolean isActive() { return active; }
 
     public String getPassword() {
-        return passwordHash;
+        return password;
     }
 
     public String getUsername() { return username; }
     public User.Role getRole() { return role; }
-    public String getPasswordHash() { return passwordHash; }
+    public String getPasswordHash() { return password; }
 }
