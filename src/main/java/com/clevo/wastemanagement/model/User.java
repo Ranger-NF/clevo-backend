@@ -7,9 +7,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.UUID;
 
+@Data
 @Entity
-@Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -39,10 +38,34 @@ public class User {
     @Column(nullable = false)
     private boolean active = true;
 
+    @Column(nullable = false, updatable = false)
+    private java.time.Instant createdAt;
+
+    @Column(nullable = false)
+    private java.time.Instant updatedAt;
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = updatedAt = java.time.Instant.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = java.time.Instant.now();
+    }
+
     public enum Role {
         CITIZEN, RECYCLER, AUTHORITY
     }
 
     public void setActive(boolean active) { this.active = active; }
     public boolean isActive() { return active; }
+
+    public String getPassword() {
+        return passwordHash;
+    }
+
+    public String getUsername() { return username; }
+    public User.Role getRole() { return role; }
+    public String getPasswordHash() { return passwordHash; }
 }

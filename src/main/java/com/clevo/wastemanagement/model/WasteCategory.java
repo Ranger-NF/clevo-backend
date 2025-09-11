@@ -5,9 +5,8 @@ import lombok.*;
 
 import java.util.UUID;
 
+@Data
 @Entity
-@Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -23,4 +22,7 @@ public class WasteCategory {
     private String description;
 
     private Double ecoPointsPerUnit; // points per kg
+
+    public void setName(String name) { this.name = name; }
+    public void setDescription(String description) { this.description = description; }
 }
