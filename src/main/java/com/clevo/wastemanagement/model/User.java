@@ -2,6 +2,8 @@ package com.clevo.wastemanagement.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 import java.util.UUID;
 
@@ -23,7 +25,7 @@ public class User {
 
     @Column(unique = true, nullable = false)
     private String email;
-
+    @JsonIgnore   // 👈 hides password from JSON response
     private String password;
 
     @Enumerated(EnumType.STRING)
