@@ -37,7 +37,8 @@ public class SecurityConfig {
                 .anyRequest().authenticated()
             )
             .userDetailsService(userDetailsService)
-            .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+            .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+            .headers(headers -> headers.frameOptions().disable());
         return http.build();
     }
 

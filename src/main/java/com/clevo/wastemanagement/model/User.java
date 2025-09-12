@@ -2,6 +2,8 @@ package com.clevo.wastemanagement.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 import java.util.UUID;
 
@@ -22,9 +24,8 @@ public class User {
 
     @Column(unique = true, nullable = false)
     private String email;
-
-    @Column(nullable = false, name = "password")
-    private String passwordHash;
+    @JsonIgnore   // 👈 hides password from JSON response
+    private String password;
 
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -61,10 +62,9 @@ public class User {
     public boolean isActive() { return active; }
 
     public String getPassword() {
-        return passwordHash;
+        return password;
     }
 
     public String getUsername() { return username; }
     public User.Role getRole() { return role; }
-    public String getPasswordHash() { return passwordHash; }
 }
