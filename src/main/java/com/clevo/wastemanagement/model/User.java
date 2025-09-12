@@ -67,5 +67,4 @@ public class User {
 
     public String getUsername() { return username; }
     public User.Role getRole() { return role; }
-    public String getPasswordHash() { return password; }
 }
