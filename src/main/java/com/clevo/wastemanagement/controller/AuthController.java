@@ -4,10 +4,10 @@ import com.clevo.wastemanagement.dto.*;
 import com.clevo.wastemanagement.model.User;
 import com.clevo.wastemanagement.repository.UserRepository;
 import com.clevo.wastemanagement.security.JwtUtil;
+import com.clevo.wastemanagement.service.AuthService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -18,38 +18,38 @@ import java.util.Map;
 public class AuthController {
 
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
+
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
+    private final AuthService authService;
 
-    public AuthController(UserRepository userRepository, PasswordEncoder passwordEncoder,
-                         AuthenticationManager authenticationManager, JwtUtil jwtUtil) {
+
+    public AuthController(UserRepository userRepository,    AuthenticationManager authenticationManager, JwtUtil jwtUtil, AuthService authService) {
         this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
+
         this.authenticationManager = authenticationManager;
         this.jwtUtil = jwtUtil;
+        this.authService = authService;
     }
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegisterRequest req) {
+        // 1. basic uniqueness check (keep this)
         if (userRepository.findByUsername(req.getUsername()).isPresent() ||
-            userRepository.findByEmail(req.getEmail()).isPresent()) {
+                userRepository.findByEmail(req.getEmail()).isPresent()) {
             return ResponseEntity.badRequest().body("Username or email already exists");
         }
-        User user = User.builder()
-                .username(req.getUsername())
-                .email(req.getEmail())
-                .password(passwordEncoder.encode(req.getPassword()))
-                .role(req.getRole())
-                .firstName(req.getFirstName())
-                .lastName(req.getLastName())
-                .address(req.getAddress())
-                .phoneNumber(req.getPhoneNumber())
-                .active(true)
-                .build();
-        userRepository.save(user);
-        return ResponseEntity.ok("User registered successfully");
+
+        // 2. delegate the actual save/validation to AuthService
+        try {
+            User user = authService.registerCitizenAware(req);
+            return ResponseEntity.ok("User registered successfully with id " + user.getId());
+        } catch (IllegalArgumentException ex) {
+            // e.g. missing/invalid wardId for citizen
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
     }
+
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody AuthRequest req) {
