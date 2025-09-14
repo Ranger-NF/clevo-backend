@@ -10,7 +10,7 @@ services:
       MYSQL_PASSWORD: apppass
 
     volumes:
-      - mysql_data:/var/lib/mysql
+      - ./mysql_data:/var/lib/mysql
 
   springboot:
     build: .
@@ -24,7 +24,7 @@ services:
       SPRING_DATASOURCE_PASSWORD: apppass
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
     ports:
-      - "39779:39779"
+        - "39779:39779"
 
 volumes:
   mysql_data:
