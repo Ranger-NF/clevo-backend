@@ -9,6 +9,7 @@ import com.clevo.wastemanagement.service.BookingService;
 import com.clevo.wastemanagement.service.RecyclerService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,9 +29,10 @@ public class RecyclerController {
     }
 
     // GET recycler slots
-    @GetMapping("/slots/{recyclerId}")
-    public ResponseEntity<List<PickupSlot>> getRecyclerSlots(@PathVariable UUID recyclerId) {
-        return ResponseEntity.ok(recyclerService.getRecyclerSlots(recyclerId));
+    @GetMapping("/slots")
+    public ResponseEntity<List<PickupSlot>> getRecyclerSlots(Authentication authentication) {
+        String username = authentication.getName();
+        return ResponseEntity.ok(recyclerService.getRecyclerSlots(username));
     }
 
     // CREATE slot (accepts small DTO)
@@ -54,10 +56,23 @@ public class RecyclerController {
         return ResponseEntity.noContent().build();
     }
 
+    // GET bookings for a recycler
+    @GetMapping("/bookings")
+    public ResponseEntity<List<Booking>> getBookingsByRecycler(Authentication authentication) {
+        String username = authentication.getName();
+        return ResponseEntity.ok(recyclerService.getBookingsByRecycler(username));
+    }
+
     // GET bookings for ward
     @GetMapping("/bookings/ward/{wardId}")
     public ResponseEntity<List<Booking>> getBookingsByWard(@PathVariable UUID wardId) {
         return ResponseEntity.ok(recyclerService.getBookingsByWard(wardId));
+    }
+
+    // GET bookings for slot
+    @GetMapping("/bookings/slot/{slotId}")
+    public ResponseEntity<List<Booking>> getBookingsBySlot(@PathVariable UUID slotId) {
+        return ResponseEntity.ok(recyclerService.getBookingsBySlot(slotId));
     }
 
     @GetMapping("/wards")

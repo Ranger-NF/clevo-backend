@@ -62,8 +62,10 @@ public class RecyclerService {
     }
 
     // Get recycler’s slots
-    public List<PickupSlot> getRecyclerSlots(UUID recyclerId) {
-        return pickupSlotRepository.findByRecycler_Id(recyclerId);
+    public List<PickupSlot> getRecyclerSlots(String recyclerUsername) {
+        User recycler = userRepository.findByUsername(recyclerUsername)
+                .orElseThrow(() -> new RuntimeException("User not found"));;
+        return pickupSlotRepository.findByRecycler_Id(recycler.getId());
     }
 
 
@@ -105,9 +107,21 @@ public class RecyclerService {
         pickupSlotRepository.deleteById(slotId);
     }
 
+    // Get bookings for a recycler
+    public List<Booking> getBookingsByRecycler(String recyclerUsername) {
+        User recycler = userRepository.findByUsername(recyclerUsername)
+                .orElseThrow(() -> new RuntimeException("User not found"));;
+        return bookingRepository.findByPickupSlot_Recycler_Id(recycler.getId());
+    }
+
     // Get bookings for a ward
     public List<Booking> getBookingsByWard(UUID wardId) {
         return bookingRepository.findByPickupSlot_Ward_Id(wardId);
+    }
+
+    // Get bookings for a slot
+    public List<Booking> getBookingsBySlot(UUID slotId) {
+        return bookingRepository.findByPickupSlot_id(slotId);
     }
 
     // Update booking status

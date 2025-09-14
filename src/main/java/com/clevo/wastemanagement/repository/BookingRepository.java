@@ -9,4 +9,6 @@ import java.util.UUID;
 public interface BookingRepository extends JpaRepository<Booking, UUID> {
     List<Booking> findByPickupSlot_Ward_Id(UUID wardId);
     List<Booking> findByCitizen_Id(UUID citizenId);
+    List<Booking> findByPickupSlot_id(UUID slotId);
+    List<Booking> findByPickupSlot_Recycler_Id(UUID recyclerId);
 }
