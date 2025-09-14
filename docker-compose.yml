@@ -24,7 +24,7 @@ services:
       SPRING_DATASOURCE_PASSWORD: apppass
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
     ports:
-      - "8080:39779"
+      - "39779:39779"
 
 volumes:
   mysql_data:
