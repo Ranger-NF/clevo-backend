@@ -35,6 +35,10 @@ public class User {
     private String address;
     private String phoneNumber;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ward_id")   // column in the users table
+    private Ward ward;
+
     @Column(nullable = false)
     private boolean active = true;
 
