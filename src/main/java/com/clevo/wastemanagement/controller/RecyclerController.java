@@ -37,8 +37,9 @@ public class RecyclerController {
 
     // CREATE slot (accepts small DTO)
     @PostMapping("/slots")
-    public ResponseEntity<PickupSlot> createSlot(@RequestBody PickupSlotRequest request) {
-        PickupSlot saved = recyclerService.createSlot(request);
+    public ResponseEntity<PickupSlot> createSlot(@RequestBody PickupSlotRequest request, Authentication authentication) {
+        String username = authentication.getName();
+        PickupSlot saved = recyclerService.createSlot(request, username);
         return ResponseEntity.status(HttpStatus.CREATED).body(saved);
     }
 
@@ -75,6 +76,7 @@ public class RecyclerController {
         return ResponseEntity.ok(recyclerService.getBookingsBySlot(slotId));
     }
 
+    // GET list of wards
     @GetMapping("/wards")
     public ResponseEntity<List<Ward>> listWards() {
         return ResponseEntity.ok(recyclerService.listWards());

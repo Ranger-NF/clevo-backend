@@ -70,8 +70,8 @@ public class RecyclerService {
 
 
     // ✅ Create slot using DTO
-    public PickupSlot createSlot(PickupSlotRequest request) {
-        User recycler = userRepository.findById(request.getRecyclerId())
+    public PickupSlot createSlot(PickupSlotRequest request, String recyclerUsername) {
+        User recycler = userRepository.findByUsername(recyclerUsername)
                 .orElseThrow(() -> new RuntimeException("Recycler not found"));
         Ward ward = wardRepository.findById(request.getWardId())
                 .orElseThrow(() -> new RuntimeException("Ward not found"));

@@ -4,15 +4,11 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class PickupSlotRequest {
-    private UUID recyclerId;
     private UUID wardId;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private Integer capacity;
     private Boolean isActive;
-
-    public UUID getRecyclerId() { return recyclerId; }
-    public void setRecyclerId(UUID recyclerId) { this.recyclerId = recyclerId; }
 
     public UUID getWardId() { return wardId; }
     public void setWardId(UUID wardId) { this.wardId = wardId; }
