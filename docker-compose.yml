@@ -1,0 +1,30 @@
+services:
+  mysql:
+    image: mysql:9.4
+    container_name: mysql-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: wastemanagement
+      MYSQL_USER: appuser
+      MYSQL_PASSWORD: apppass
+
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  springboot:
+    build: .
+    container_name: springboot-app
+    restart: always
+    depends_on:
+      - mysql
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/wastemanagement
+      SPRING_DATASOURCE_USERNAME: appuser
+      SPRING_DATASOURCE_PASSWORD: apppass
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    ports:
+      - "8080:8080"
+
+volumes:
+  mysql_data:
