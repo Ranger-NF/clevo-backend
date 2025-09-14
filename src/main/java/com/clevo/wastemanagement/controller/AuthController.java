@@ -35,6 +35,7 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegisterRequest req) {
         // 1. basic uniqueness check (keep this)
+        System.out.println(req);
         if (userRepository.findByUsername(req.getUsername()).isPresent() ||
                 userRepository.findByEmail(req.getEmail()).isPresent()) {
             return ResponseEntity.badRequest().body("Username or email already exists");
