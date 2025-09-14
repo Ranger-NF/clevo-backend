@@ -4,6 +4,7 @@ import com.clevo.wastemanagement.dto.PickupSlotRequest;
 import com.clevo.wastemanagement.dto.UpdateBookingStatusRequest;
 import com.clevo.wastemanagement.model.Booking;
 import com.clevo.wastemanagement.model.PickupSlot;
+import com.clevo.wastemanagement.model.Ward;
 import com.clevo.wastemanagement.service.BookingService;
 import com.clevo.wastemanagement.service.RecyclerService;
 import org.springframework.http.HttpStatus;
@@ -58,4 +59,10 @@ public class RecyclerController {
     public ResponseEntity<List<Booking>> getBookingsByWard(@PathVariable UUID wardId) {
         return ResponseEntity.ok(recyclerService.getBookingsByWard(wardId));
     }
+
+    @GetMapping("/wards")
+    public ResponseEntity<List<Ward>> listWards() {
+        return ResponseEntity.ok(recyclerService.listWards());
+    }
+
 }

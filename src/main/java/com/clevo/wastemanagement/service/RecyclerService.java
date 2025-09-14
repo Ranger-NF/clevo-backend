@@ -120,4 +120,8 @@ public class RecyclerService {
         }
         return bookingRepository.save(booking);
     }
+
+    public List<Ward> listWards() {
+        return wardRepository.findAll();
+    }
 }

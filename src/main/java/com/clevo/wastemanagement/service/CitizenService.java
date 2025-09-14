@@ -1,14 +1,8 @@
 package com.clevo.wastemanagement.service;
 import com.clevo.wastemanagement.dto.BookingRequest;
 import com.clevo.wastemanagement.dto.RewardRedeemRequest;
-import com.clevo.wastemanagement.model.Booking;
-import com.clevo.wastemanagement.model.PickupSlot;
-import com.clevo.wastemanagement.model.Reward;
-import com.clevo.wastemanagement.model.WasteCategory;
-import com.clevo.wastemanagement.repository.BookingRepository;
-import com.clevo.wastemanagement.repository.PickupSlotRepository;
-import com.clevo.wastemanagement.repository.RewardRepository;
-import com.clevo.wastemanagement.repository.WasteCategoryRepository;
+import com.clevo.wastemanagement.model.*;
+import com.clevo.wastemanagement.repository.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,12 +13,14 @@ public class CitizenService {
     private final BookingRepository bookingRepo;
     private final RewardRepository rewardRepo;
     private final WasteCategoryRepository wasteCategoryRepo;
+    private final UserRepository userRepo;
 
-    public CitizenService(PickupSlotRepository slotRepo, BookingRepository bookingRepo, RewardRepository rewardRepo, WasteCategoryRepository wasteCategoryRepo) {
+    public CitizenService(PickupSlotRepository slotRepo, BookingRepository bookingRepo, RewardRepository rewardRepo, WasteCategoryRepository wasteCategoryRepo, UserRepository userRepository) {
         this.slotRepo = slotRepo;
         this.bookingRepo = bookingRepo;
         this.rewardRepo = rewardRepo;
         this.wasteCategoryRepo = wasteCategoryRepo;
+        this.userRepo = userRepository;
     }
 
     // View available slots
@@ -33,12 +29,16 @@ public class CitizenService {
     }
 
     // Book a slot
-    public Booking bookSlot(BookingRequest request) {
+    public Booking bookSlot(BookingRequest request, String username) {
         PickupSlot slot = slotRepo.findById(request.getSlotId())
                 .orElseThrow(() -> new RuntimeException("Slot not found"));
         WasteCategory wasteCategory = wasteCategoryRepo.findById(request.getWasteCategoryId())
                 .orElseThrow(() -> new RuntimeException("Waste category not found"));
+        User citizen = userRepo.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
         Booking booking = new Booking();
+        booking.setCitizen(citizen);
         booking.setPickupSlot(slot);
         booking.setWasteCategory(wasteCategory);
         booking.setEstimatedQuantity(request.getEstimatedQuantity());
@@ -69,4 +69,9 @@ public class CitizenService {
         rewardRepo.delete(reward);
         return "Reward Redeemed: " + reward.getName();
     }
+
+    public List<WasteCategory> listWasteCategories() {
+        return wasteCategoryRepo.findAll();
+    }
+
 }

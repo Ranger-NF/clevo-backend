@@ -4,7 +4,10 @@ import com.clevo.wastemanagement.dto.RewardRedeemRequest;
 import com.clevo.wastemanagement.model.Booking;
 import com.clevo.wastemanagement.model.PickupSlot;
 import com.clevo.wastemanagement.model.Reward;
+import com.clevo.wastemanagement.model.WasteCategory;
 import com.clevo.wastemanagement.service.CitizenService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -27,8 +30,9 @@ public class CitizenController {
 
     // POST /api/citizen/book
     @PostMapping("/book")
-    public Booking bookSlot(@RequestBody BookingRequest request) {
-        return citizenService.bookSlot(request);
+    public Booking bookSlot(@RequestBody BookingRequest request, Authentication authentication) {
+        String username = authentication.getName();
+        return citizenService.bookSlot(request, username);
     }
 
     // GET /api/citizen/bookings
@@ -53,5 +57,10 @@ public class CitizenController {
     @PostMapping("/rewards/redeem")
     public String redeemReward(@RequestBody RewardRedeemRequest request) {
         return citizenService.redeemReward(request);
+    }
+
+    @GetMapping("/waste-categories")
+    public ResponseEntity<List<WasteCategory>> listWasteCategories() {
+        return ResponseEntity.ok(citizenService.listWasteCategories());
     }
 }
