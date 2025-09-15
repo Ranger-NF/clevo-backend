@@ -56,10 +56,11 @@ public class CitizenService {
                 .map(b -> {
                     BookingResponse dto = new BookingResponse();
                     dto.setId(b.getId());
-                    dto.setCategory(b.getWasteCategory());
+                    dto.setWasteCategory(b.getWasteCategory());
                     dto.setQuantity(b.getEstimatedQuantity());
                     dto.setStatus(b.getStatus());
                     dto.setCitizenUsername(b.getCitizen().getUsername());
+                    dto.setCreatedAt(b.getCreatedAt());
                     return dto;
                 })
                 .toList();
