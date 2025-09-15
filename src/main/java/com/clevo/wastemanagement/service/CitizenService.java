@@ -1,5 +1,6 @@
 package com.clevo.wastemanagement.service;
 import com.clevo.wastemanagement.dto.BookingRequest;
+import com.clevo.wastemanagement.dto.BookingResponse;
 import com.clevo.wastemanagement.dto.RewardRedeemRequest;
 import com.clevo.wastemanagement.model.*;
 import com.clevo.wastemanagement.repository.*;
@@ -43,13 +44,25 @@ public class CitizenService {
         booking.setWasteCategory(wasteCategory);
         booking.setEstimatedQuantity(request.getEstimatedQuantity());
         booking.setStatus(Booking.Status.PENDING);
-        // ...set citizen if needed...
         return bookingRepo.save(booking);
     }
 
     // View all bookings
-    public List<Booking> getBookings() {
-        return bookingRepo.findAll();
+    public List<BookingResponse> getBookings(String citizenUsername) {
+        User citizen = userRepo.findByUsername(citizenUsername)
+                .orElseThrow(() -> new RuntimeException("User not found"));;
+        return bookingRepo.findByCitizen_Id(citizen.getId())
+                .stream()
+                .map(b -> {
+                    BookingResponse dto = new BookingResponse();
+                    dto.setId(b.getId());
+                    dto.setCategory(b.getWasteCategory());
+                    dto.setQuantity(b.getEstimatedQuantity());
+                    dto.setStatus(b.getStatus());
+                    dto.setCitizenUsername(b.getCitizen().getUsername());
+                    return dto;
+                })
+                .toList();
     }
 
     // Total rewards

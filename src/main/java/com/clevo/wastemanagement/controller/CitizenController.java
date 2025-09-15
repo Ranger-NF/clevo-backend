@@ -1,5 +1,6 @@
 package com.clevo.wastemanagement.controller;
 import com.clevo.wastemanagement.dto.BookingRequest;
+import com.clevo.wastemanagement.dto.BookingResponse;
 import com.clevo.wastemanagement.dto.RewardRedeemRequest;
 import com.clevo.wastemanagement.model.Booking;
 import com.clevo.wastemanagement.model.PickupSlot;
@@ -9,6 +10,8 @@ import com.clevo.wastemanagement.service.CitizenService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+
+import java.awt.print.Book;
 import java.util.List;
 
 @RestController
@@ -37,8 +40,9 @@ public class CitizenController {
 
     // GET /api/citizen/bookings
     @GetMapping("/bookings")
-    public List<Booking> getBookings() {
-        return citizenService.getBookings();
+    public ResponseEntity<List<BookingResponse>> getBookings(Authentication authentication) {
+        String username = authentication.getName();
+        return ResponseEntity.ok(citizenService.getBookings(username));
     }
 
     // GET /api/citizen/rewards/total
