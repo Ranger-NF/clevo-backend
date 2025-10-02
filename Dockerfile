@@ -1,5 +1,5 @@
 # Stage 1: Build the application (using a JDK image)
-FROM eclipse-temurin:17-jdk-jammy AS build
+FROM docker.io/eclipse-temurin:17-jdk-jammy AS build
 
 WORKDIR /app
 
@@ -15,7 +15,7 @@ RUN ./mvnw package -DskipTests
 
 # Stage 2: Create the final, smaller runtime image (using a JRE image)
 # Use the official JRE image for a smaller footprint
-FROM eclipse-temurin:17-jre-jammy
+FROM docker.io/eclipse-temurin:17-jre-jammy
 
 # Set the working directory
 WORKDIR /app
