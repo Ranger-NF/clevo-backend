@@ -12,9 +12,9 @@
 
     <groupId>com.clevo</groupId>
     <artifactId>wastemanagement</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0</version>
     <name>wastemanagement</name>
-    <description>Demo project for Spring Boot</description>
+    <description>A smart waste management system</description>
 
     <properties>
         <java.version>17</java.version> <!-- Java 17 is LTS and fully supported by Spring Boot -->
