@@ -15,7 +15,11 @@ public class CorsConfig {
             public void addCorsMappings(CorsRegistry registry) {
                 registry
                     .addMapping("/api/**")
-                    .allowedOrigins("*")
+                    .allowedOrigins(
+                        "https://clevo.ranger.hackclub.app",
+                        "http://localhost:8000",
+                        "http://localhost:8001"
+                    )
                     .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                     .allowedHeaders("*")
                     .allowCredentials(true);
