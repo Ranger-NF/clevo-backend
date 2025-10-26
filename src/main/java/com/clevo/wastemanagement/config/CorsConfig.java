@@ -18,7 +18,8 @@ public class CorsConfig {
                     .allowedOrigins(
                         "https://clevo.ranger.hackclub.app",
                         "http://localhost:8000",
-                        "http://localhost:8001"
+                        "http://localhost:8001",
+                        "https://clevo-frontend.vercel.app"
                     )
                     .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                     .allowedHeaders("*")
